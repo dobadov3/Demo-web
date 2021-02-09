@@ -19,13 +19,12 @@ function render(items){
 }
 
 function addItem(){
-
+    console.log('Added');
     var newItem = {
         content: input.value
     }
     axios.post(url, newItem).then(function(item){
-        console.log(item);
+        input.value = '';
     });
 
-    
 }
