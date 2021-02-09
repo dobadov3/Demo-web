@@ -11,6 +11,40 @@
     <button id="btn-add">Add</button>
     <ul id="todo-list"></ul>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="index.js"></script>
+    <script>
+    var todoList = document.getElementById('todo-list');
+
+    var url = 'http://localhost:3000/todos';
+    var input = document.getElementById('input');
+    var btnAdd = document.getElementById('btn-add');
+    var listTodos = [];
+
+    btnAdd.addEventListener('click', addItem);
+
+    axios.get(url).then(function(respone){
+        listTodos = respone.data;
+        render(respone.data);
+    })
+
+    function render(items){
+        var content = items.map(function(item){
+            return '<li>' + item.content + '</li>';
+        });
+
+        todoList.innerHTML = content.join('');
+    }
+
+    function addItem(){
+        var newItem = {
+            content: input.value
+        }
+        axios.post(url, newItem).then(function(item){
+            listTodos.push(item.data);
+            render(listTodos);
+            input.value = '';
+        });
+        console.log('Added')
+    }
+    </script>
 </body>
 </html>
